@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h3>Currency Conversion</h3>
+      {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}" class="btn btn-danger pull-right">Logout</a>
+      <p>Hi {{ user.username }}!</p>
+        <div class="row text-align-center">
+          <div class="col-sm-6">
+            <form action="" method="post">{% csrf_token %}
+              {{ form | crispy }}
+            <input type="submit" class="btn btn-success" value="Convert" />
+            </form>
+        <h3 align="center"> {{ converted_value }} </h3>
+
+          </div>
+
+          <div class="col-sm-6">
+            <table class="table table-bordered" style="text-align: center">
+              <thead>
+                <tr>
+                  <th>History</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for s in history %}
+                <div class="history">
+                  <tr>
+                    <td><p>{{ s.history }}</p></td>
+                  </tr>
+                {% endfor %}
+                </div>
+              </tbody>
+            </table>
+          </div>
+
+
+      {% else %}
+      <div class="container" align="center">
+        <p> You are not logged in.</p>
+        <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+        <a href="{% url 'signup' %}" class="btn btn-success">Signup</a>
+      </div>
+      {% endif %}
+
+{% endblock %}
